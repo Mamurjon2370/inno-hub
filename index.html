@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA Bot - Texnologiya Yordamchisi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>IA Bot</span>
+            </div>
+            <nav class="nav">
+                <a href="#features" class="nav-link">Yo'nalishlar</a>
+                <a href="#chat" class="nav-link">Suhbat</a>
+                <a href="#about" class="nav-link">Biz haqimizda</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Texnologiya Dunyosida <span class="gradient-text">Sizning Yordamchingiz</span></h1>
+                <p>Robototexnika, Web dasturlash, Mobilografiya va 3D modellashtirish bo'yicha professional yordam</p>
+                <a href="#chat" class="btn btn-primary">Suhbatni Boshlash <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-icons">
+                    <i class="fas fa-robot icon-1"></i>
+                    <i class="fas fa-code icon-2"></i>
+                    <i class="fas fa-video icon-3"></i>
+                    <i class="fas fa-cube icon-4"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">4 Ta Asosiy Yo'nalish</h2>
+            <div class="features-grid">
+                <!-- Robototexnika -->
+                <div class="feature-card" data-topic="robototexnika">
+                    <div class="feature-icon robot">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Robototexnika</h3>
+                    <p>Arduino, Raspberry Pi, sensorlar, dvigatellar va avtomatlashtirish tizimlari</p>
+                    <ul class="feature-list">
+                        <li>Arduino dasturlash</li>
+                        <li>Sensorlar ulash</li>
+                        <li>Avtomatlashtirish</li>
+                        <li>IoT loyihalar</li>
+                    </ul>
+                </div>
+
+                <!-- Web Dasturlash -->
+                <div class="feature-card" data-topic="web">
+                    <div class="feature-icon web">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Dasturlash</h3>
+                    <p>Frontend va backend dasturlash, zamonaviy frameworklar va texnologiyalar</p>
+                    <ul class="feature-list">
+                        <li>HTML/CSS/JavaScript</li>
+                        <li>React/Vue/Angular</li>
+                        <li>Node.js/Python</li>
+                        <li>Ma'lumotlar bazasi</li>
+                    </ul>
+                </div>
+
+                <!-- Mobilografiya -->
+                <div class="feature-card" data-topic="mobilografiya">
+                    <div class="feature-icon mobile">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobilografiya</h3>
+                    <p>Professional videomontaj, rang korreksiyasi va vizual effektlar</p>
+                    <ul class="feature-list">
+                        <li>Premiere Pro</li>
+                        <li>DaVinci Resolve</li>
+                        <li>After Effects</li>
+                        <li>CapCut/ mobile apps</li>
+                    </ul>
+                </div>
+
+                <!-- 3D Modellashtirish -->
+                <div class="feature-card" data-topic="3d">
+                    <div class="feature-icon d3">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>3D Modellashtirish</h3>
+                    <p>Blender, 3ds Max, Maya va o'yin dvigatellari bilan ishlash</p>
+                    <ul class="feature-list">
+                        <li>Blender 3D</li>
+                        <li>3ds Max</li>
+                        <li>Unity/Unreal Engine</li>
+                        <li>Rendering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" class="chat-section">
+        <div class="container">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <h3>IA Bot</h3>
+                            <span class="status">Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-topics">
+                        <button class="topic-btn active" data-topic="all">Barchasi</button>
+                        <button class="topic-btn" data-topic="robototexnika">Robot</button>
+                        <button class="topic-btn" data-topic="web">Web</button>
+                        <button class="topic-btn" data-topic="mobilografiya">Video</button>
+                        <button class="topic-btn" data-topic="3d">3D</button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Salom! 👋 Men IA Botman. Sizga quyidagi yo'nalishlarda yordam berishim mumkin:</p>
+                            <div class="quick-topics">
+                                <button class="quick-btn" onclick="setTopic('robototexnika')">🤖 Robototexnika</button>
+                                <button class="quick-btn" onclick="setTopic('web')">💻 Web Dasturlash</button>
+                                <button class="quick-btn" onclick="setTopic('mobilografiya')">🎬 Mobilografiya</button>
+                                <button class="quick-btn" onclick="setTopic('3d')">🎨 3D Modellashtirish</button>
+                            </div>
+                            <p class="hint">Iltimos, yuqoridagi yo'nalishlardan birini tanlang yoki savolingizni yozing!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="input-wrapper">
+                        <input type="text" id="userInput" placeholder="Savolingizni yozing..." autocomplete="off">
+                        <button id="sendBtn" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i>
+                        Faqat 4 ta yo'nalish bo'yicha savollar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Bot Haqida</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Aqlli Javoblar</h3>
+                    <p>Har bir savolga professional va aniq javoblar</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Tezkor Yordam</h3>
+                    <p>24/7 rejimida ishlaydi, istalgan vaqtda yordam</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Ishonchli Ma'lumot</h3>
+                    <p>Tekshirilgan va amaliy ma'lumotlar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 IA Bot. Barcha huquqlar himoyalangan.</p>
+            <p>GitHub: <a href="https://github.com/Mamurjon2370" target="_blank">@Mamurjon2370</a></p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
