@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IA Bot - Texnologiya Yordamchisi</title>
+    <title>INNO HUB - Texnologiya Yordamchisi</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,15 +14,25 @@
         <div class="container">
             <div class="logo">
                 <i class="fas fa-robot"></i>
-                <span>IA Bot</span>
+                <span>INNO HUB</span>
             </div>
             <nav class="nav">
                 <a href="#features" class="nav-link">Yo'nalishlar</a>
                 <a href="#chat" class="nav-link">Suhbat</a>
                 <a href="#about" class="nav-link">Biz haqimizda</a>
             </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#features" class="mobile-nav-link">Yo'nalishlar</a>
+        <a href="#chat" class="mobile-nav-link">Suhbat</a>
+        <a href="#about" class="mobile-nav-link">Biz haqimizda</a>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -80,7 +90,7 @@
                         <li>Premiere Pro</li>
                         <li>DaVinci Resolve</li>
                         <li>After Effects</li>
-                        <li>CapCut/ mobile apps</li>
+                        <li>CapCut/mobile apps</li>
                     </ul>
                 </div>
 
@@ -121,26 +131,25 @@
                 </div>
 
                 <div class="chat-messages" id="chatMessages">
-                    <div class="message bot-message">
+                    <div class="message bot-message welcome-message">
                         <div class="message-avatar"><i class="fas fa-robot"></i></div>
                         <div class="message-content">
-                            <p>Salom! 👋 Men IA Botman. Sizga quyidagi yo'nalishlarda yordam berishim mumkin:</p>
+                            <p> Assalomu Alaykum! 👋 Men INNO HUB. Sizga quyidagi yo'nalishlarda yordam berishim mumkin:</p>
                             <div class="quick-topics">
-                                <button class="quick-btn" onclick="setTopic('robototexnika')">🤖 Robototexnika</button>
-                                <button class="quick-btn" onclick="setTopic('web')">💻 Web Dasturlash</button>
-                                <button class="quick-btn" onclick="setTopic('mobilografiya')">🎬 Mobilografiya</button>
-                                <button class="quick-btn" onclick="setTopic('d3')">🎨 3D Modellashtirish</button>
+                                <button class="quick-btn" onclick="window.selectTopic('robototexnika')">🤖 Robototexnika</button>
+                                <button class="quick-btn" onclick="window.selectTopic('web')">💻 Web Dasturlash</button>
+                                <button class="quick-btn" onclick="window.selectTopic('mobilografiya')">🎬 Mobilografiya</button>
+                                <button class="quick-btn" onclick="window.selectTopic('d3')">🎨 3D Modellashtirish</button>
                             </div>
                             <p class="hint">Iltimos, yuqoridagi yo'nalishlardan birini tanlang yoki savolingizni yozing!</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chat Input -->
                 <div class="chat-input-area">
                     <div class="input-wrapper">
                         <input type="text" id="userInput" placeholder="Savolingizni yozing..." autocomplete="off">
-                        <button id="sendBtn" class="send-btn">
+                        <button id="sendBtn" type="button" aria-label="Yuborish">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -180,8 +189,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 IA Bot. Barcha huquqlar himoyalangan.</p>
-            <p>GitHub: <a href="https://github.com/Mamurjon2370" target="_blank">@Mamurjon2370</a></p>
+            <p>&copy; 2026 inno hub. Barcha huquqlar himoyalangan.</p>
+            <p>GitHub: <a href="https://github.com/Mamurjon2370" target="_blank" rel="noopener">@Mamurjon2370</a></p>
         </div>
     </footer>
 
