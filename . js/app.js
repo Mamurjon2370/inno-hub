@@ -1,4 +1,4 @@
-// IA Bot - Texnologiya Yordamchisi
+// inno hub - Texnologiya Yordamchisi
 // Faqat 4 ta yo'nalish: Robototexnika, Web, Mobilografiya, 3D
 
 class IABot {
