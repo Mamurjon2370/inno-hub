@@ -1,4 +1,10 @@
-// IA Bot - Texnologiya Yordamchisi (Mukammal versiya)
+/**
+ * IA Bot - Texnologiya Yordamchisi
+ * Render.com uchun optimallashtirilgan versiya
+ * @version 2.0.0
+ * @author Mamurjon2370
+ */
+
 (function() {
     'use strict';
 
@@ -10,13 +16,13 @@
     // Knowledge Base - Kengaytirilgan ma'lumotlar bazasi
     const knowledgeBase = {
         greetings: {
-            patterns: ['salom', 'assalom', 'hello', 'hi', 'hey', 'qalesan'],
+            patterns: ['salom', 'assalom', 'hello', 'hi', 'hey', 'qalesan', 'qandaysan'],
             responses: [
-                "👋 Assalomu Alaykum! Men INNO HUB . Sizga quyidagi yo'nalishlarda yordam beraman:\n\n🤖 Robototexnika\n💻 Web Dasturlash\n🎬 Mobilografiya\n🎨 3D Modellashtirish\n\nQaysi mavzu haqida gaplashmoqchisiz?"
+                "👋 Salom! Men IA Botman. Sizga quyidagi yo'nalishlarda yordam beraman:\n\n🤖 Robototexnika\n💻 Web Dasturlash\n🎬 Mobilografiya\n🎨 3D Modellashtirish\n\nQaysi mavzu haqida gaplashmoqchisiz?"
             ]
         },
         thanks: {
-            patterns: ['rahmat', 'thank', 'sagol', 'xayr'],
+            patterns: ['rahmat', 'thank', 'sagol', 'xayr', 'xayr'],
             responses: [
                 "😊 Arzimaydi! Boshqa savolingiz bo'lsa, bemalol so'rang!",
                 "👍 Sizga yordam bera olsam, xursandman!",
@@ -24,28 +30,28 @@
             ]
         },
         robototexnika: {
-            patterns: ['arduino', 'robot', 'sensor', 'motor', 'raspberry', 'iot', 'elektronika'],
+            patterns: ['arduino', 'robot', 'sensor', 'motor', 'raspberry', 'iot', 'elektronika', 'led', 'servo', 'ultrasonic'],
             responses: [
                 "🤖 **Robototexnika** bo'yicha:\n\nArduino dasturlash, sensorlar va dvigatellar haqida savol bering. Masalan:\n• Arduino bilan LED yondirish\n• HC-SR04 masofa sensori\n• Servo motor nazorati\n• Bluetooth orqali boshqarish",
                 "🤖 **Arduino** uchun kod namunasi:\n```cpp\nvoid setup() {\n  pinMode(13, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(1000);\n  digitalWrite(13, LOW);\n  delay(1000);\n}\n```\nBu kod 13-pin dagi LEDni yondirib-o'chiradi."
             ]
         },
         web: {
-            patterns: ['html', 'css', 'javascript', 'react', 'web', 'frontend', 'backend', 'node', 'python'],
+            patterns: ['html', 'css', 'javascript', 'react', 'web', 'frontend', 'backend', 'node', 'python', 'api', 'dom'],
             responses: [
                 "💻 **Web Dasturlash** bo'yicha:\n\nFrontend yoki Backend haqida savol bering. Masalan:\n• HTML/CSS asoslari\n• JavaScript funksiyalar\n• React komponentlar\n• API bilan ishlash",
                 "💻 **HTML** asosiy struktura:\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Sahifa</title>\n</head>\n<body>\n  <h1>Salom!</h1>\n</body>\n</html>\n```"
             ]
         },
         mobilografiya: {
-            patterns: ['video', 'premiere', 'davinci', 'capcut', 'montaj', 'after effects', 'color grading'],
+            patterns: ['video', 'premiere', 'davinci', 'capcut', 'montaj', 'after effects', 'color grading', 'edit', 'timeline'],
             responses: [
                 "🎬 **Mobilografiya** bo'yicha:\n\nVideo montaj va rang korreksiyasi haqida savol bering. Masalan:\n• Premiere Pro montaj\n• DaVinci Resolve color grading\n• CapCut mobil montaj\n• Green screen effektlar",
                 "🎬 **Premiere Pro** tez klavishlar:\n• C - Razor (kesish)\n• V - Selection\n• Space - Play/Pause\n• Ctrl+K - Cut"
             ]
         },
         d3: {
-            patterns: ['blender', '3d', 'unity', 'unreal', 'model', 'render', 'maya', '3ds max'],
+            patterns: ['blender', '3d', 'unity', 'unreal', 'model', 'render', 'maya', '3ds max', 'animation', 'mesh'],
             responses: [
                 "🎨 **3D Modellashtirish** bo'yicha:\n\nBlender yoki o'yin dvigatellari haqida savol bering. Masalan:\n• Blender box modeling\n• Unity dasturiy ta'minot\n• 3D animatsiya asoslari\n• Rendering sozlamalari",
                 "🎨 **Blender** asosiy klavishlar:\n• G - Move (ko'chirish)\n• S - Scale (o'lcham)\n• R - Rotate (aylantirish)\n• Tab - Edit/Object mode"
@@ -79,31 +85,23 @@
 
         // Tekshirish
         if (!chatMessages || !userInput || !sendBtn) {
-            console.error('Kerakli elementlar topilmadi!');
+            console.error('❌ Kerakli elementlar topilmadi!');
             return;
         }
+
+        console.log('✅ IA Bot ishga tushmoqda...');
 
         // Event Listeners
         setupEventListeners();
         
         // Mobile menu
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-            });
-            
-            // Mobile menu linklarini yopish
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('active');
-                });
-            });
-        }
+        setupMobileMenu(mobileMenuBtn, mobileMenu);
 
         // LocalStorage'dan yuklash
         loadChatHistory();
 
-        console.log('✅ INNO HUB muvaffaqiyatli ishga tushdi!');
+        // Welcome xabar
+        console.log('🚀 Bot tayyor!');
     }
 
     function setupEventListeners() {
@@ -135,10 +133,49 @@
             });
         });
 
-        // Global function for quick buttons (REKURSIV XATOLIK tuzatildi)
+        // Global function for quick buttons
         window.selectTopic = function(topic) {
             setTopicInternal(topic);
         };
+
+        // Clear chat global
+        window.clearChat = clearChat;
+    }
+
+    function setupMobileMenu(btn, menu) {
+        if (!btn || !menu) return;
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            const icon = btn.querySelector('i');
+            if (menu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Mobile menu linklarini yopish
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+                const icon = btn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Tashqi click yopish
+        document.addEventListener('click', (e) => {
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('active');
+                const icon = btn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
     }
 
     function handleSend() {
@@ -157,13 +194,15 @@
 
         // Javob olish
         isTyping = true;
+        const delay = 600 + Math.random() * 400;
+        
         setTimeout(() => {
             hideTyping();
             const response = generateSmartResponse(text);
             addBotMessage(response);
             isTyping = false;
             saveChatHistory();
-        }, 800 + Math.random() * 400); // Tasodifiy kechikish (realistik)
+        }, delay);
     }
 
     function addUserMessage(text) {
@@ -180,8 +219,6 @@
     function addBotMessage(text) {
         const div = document.createElement('div');
         div.className = 'message bot-message';
-        
-        // Kod bloklarini formatlash
         const formattedText = formatMessage(text);
         
         div.innerHTML = `
@@ -224,12 +261,11 @@
     function generateSmartResponse(msg) {
         const lower = msg.toLowerCase();
         
-        // Salomlashish
+        // Salomlashish va boshqa patternlar
         for (let key in knowledgeBase) {
             if (key === 'default') continue;
             const item = knowledgeBase[key];
             if (item.patterns && item.patterns.some(p => lower.includes(p))) {
-                // Tasodifiy javob tanlash
                 const responses = item.responses;
                 return responses[Math.floor(Math.random() * responses.length)];
             }
@@ -240,7 +276,6 @@
         return defaults[Math.floor(Math.random() * defaults.length)];
     }
 
-    // REKURSIV XATOLIK tuzatildi - ichki funksiya
     function setTopicInternal(topic) {
         currentTopic = topic;
         
@@ -260,13 +295,34 @@
         saveChatHistory();
     }
 
-    // Eski setTopic nomi saqlanib qolgan (orqaga muvofiqlik uchun)
-    window.setTopic = function(topic) {
-        setTopicInternal(topic);
-    };
-
     function selectTopic(topic) {
         setTopicInternal(topic);
+    }
+
+    function clearChat() {
+        if (confirm('Barcha suhbatni o\'chirishni xohlaysizmi?')) {
+            // Welcome xabarni saqlab qolish
+            const welcome = chatMessages.querySelector('.welcome-message');
+            chatMessages.innerHTML = '';
+            if (welcome) {
+                chatMessages.appendChild(welcome);
+            } else {
+                // Yangi welcome xabar
+                addBotMessage(knowledgeBase.greetings.responses[0]);
+            }
+            localStorage.removeItem('iaBot_chatHistory');
+            currentTopic = 'all';
+            updateTopicUI('all');
+        }
+    }
+
+    function updateTopicUI(topic) {
+        document.querySelectorAll('.topic-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.topic === topic) {
+                btn.classList.add('active');
+            }
+        });
     }
 
     function escapeHtml(text) {
@@ -300,40 +356,37 @@
             if (saved && saved.includes('message')) {
                 chatMessages.innerHTML = saved;
                 
-                // Welcome xabarni yangilash (eski bo'lsa)
+                // Qaytgan foydalanuvchi uchun
                 if (lastVisit) {
                     const lastDate = new Date(lastVisit);
                     const now = new Date();
                     const diffHours = (now - lastDate) / (1000 * 60 * 60);
                     
-                    if (diffHours > 24) {
-                        addBotMessage("👋 Qaytganingiz bilan! Qanday yordam bera olaman?");
+                    if (diffHours > 1) {
+                        setTimeout(() => {
+                            addBotMessage("👋 Qaytganingiz bilan! Qanday yordam bera olaman?");
+                        }, 1000);
                     }
                 }
             }
             
             if (savedTopic) {
                 currentTopic = savedTopic;
-                document.querySelectorAll('.topic-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.topic === savedTopic) {
-                        btn.classList.add('active');
-                    }
-                });
+                updateTopicUI(savedTopic);
             }
         } catch (e) {
             console.warn('Chat history yuklanmadi:', e);
         }
     }
 
-    // Xabarlarni tozalash funksiyasi (global)
-    window.clearChat = function() {
-        if (confirm('Barcha suhbatni o\'chirishni xohlaysizmi?')) {
-            chatMessages.innerHTML = '';
-            localStorage.removeItem('iaBot_chatHistory');
-            addBotMessage(knowledgeBase.greetings.responses[0]);
-        }
-    };
+    // Service Worker (PWA uchun)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('✅ Service Worker registered'))
+                .catch(err => console.log('❌ Service Worker error:', err));
+        });
+    }
 
     // Ishga tushirish
     if (document.readyState === 'loading') {
