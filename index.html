@@ -48,11 +48,8 @@
         <div class="container">
             <h2 class="section-title">4 Ta Asosiy Yo'nalish</h2>
             <div class="features-grid">
-                <!-- Robototexnika -->
                 <div class="feature-card" data-topic="robototexnika">
-                    <div class="feature-icon robot">
-                        <i class="fas fa-robot"></i>
-                    </div>
+                    <div class="feature-icon robot"><i class="fas fa-robot"></i></div>
                     <h3>Robototexnika</h3>
                     <p>Arduino, Raspberry Pi, sensorlar, dvigatellar va avtomatlashtirish tizimlari</p>
                     <ul class="feature-list">
@@ -63,11 +60,8 @@
                     </ul>
                 </div>
 
-                <!-- Web Dasturlash -->
                 <div class="feature-card" data-topic="web">
-                    <div class="feature-icon web">
-                        <i class="fas fa-code"></i>
-                    </div>
+                    <div class="feature-icon web"><i class="fas fa-code"></i></div>
                     <h3>Web Dasturlash</h3>
                     <p>Frontend va backend dasturlash, zamonaviy frameworklar va texnologiyalar</p>
                     <ul class="feature-list">
@@ -78,11 +72,8 @@
                     </ul>
                 </div>
 
-                <!-- Mobilografiya -->
                 <div class="feature-card" data-topic="mobilografiya">
-                    <div class="feature-icon mobile">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
+                    <div class="feature-icon mobile"><i class="fas fa-mobile-alt"></i></div>
                     <h3>Mobilografiya</h3>
                     <p>Professional videomontaj, rang korreksiyasi va vizual effektlar</p>
                     <ul class="feature-list">
@@ -93,11 +84,8 @@
                     </ul>
                 </div>
 
-                <!-- 3D Modellashtirish -->
                 <div class="feature-card" data-topic="d3">
-                    <div class="feature-icon d3">
-                        <i class="fas fa-cube"></i>
-                    </div>
+                    <div class="feature-icon d3"><i class="fas fa-cube"></i></div>
                     <h3>3D Modellashtirish</h3>
                     <p>Blender, 3ds Max, Maya va o'yin dvigatellari bilan ishlash</p>
                     <ul class="feature-list">
@@ -124,37 +112,35 @@
                         </div>
                     </div>
                     <div class="chat-topics">
-                        <button type="button" class="topic-btn active" data-topic="all">Barchasi</button>
-                        <button type="button" class="topic-btn" data-topic="robototexnika">Robot</button>
-                        <button type="button" class="topic-btn" data-topic="web">Web</button>
-                        <button type="button" class="topic-btn" data-topic="mobilografiya">Video</button>
-                        <button type="button" class="topic-btn" data-topic="d3">3D</button>
+                        <button class="topic-btn active" data-topic="all">Barchasi</button>
+                        <button class="topic-btn" data-topic="robototexnika">Robot</button>
+                        <button class="topic-btn" data-topic="web">Web</button>
+                        <button class="topic-btn" data-topic="mobilografiya">Video</button>
+                        <button class="topic-btn" data-topic="d3">3D</button>
                     </div>
                 </div>
 
                 <div class="chat-messages" id="chatMessages">
                     <div class="message bot-message">
-                        <div class="message-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
+                        <div class="message-avatar"><i class="fas fa-robot"></i></div>
                         <div class="message-content">
                             <p>Salom! 👋 Men IA Botman. Sizga quyidagi yo'nalishlarda yordam berishim mumkin:</p>
                             <div class="quick-topics">
-                                <button type="button" class="quick-btn" onclick="window.setTopic('robototexnika')">🤖 Robototexnika</button>
-                                <button type="button" class="quick-btn" onclick="window.setTopic('web')">💻 Web Dasturlash</button>
-                                <button type="button" class="quick-btn" onclick="window.setTopic('mobilografiya')">🎬 Mobilografiya</button>
-                                <button type="button" class="quick-btn" onclick="window.setTopic('d3')">🎨 3D Modellashtirish</button>
+                                <button class="quick-btn" onclick="setTopic('robototexnika')">🤖 Robototexnika</button>
+                                <button class="quick-btn" onclick="setTopic('web')">💻 Web Dasturlash</button>
+                                <button class="quick-btn" onclick="setTopic('mobilografiya')">🎬 Mobilografiya</button>
+                                <button class="quick-btn" onclick="setTopic('d3')">🎨 3D Modellashtirish</button>
                             </div>
                             <p class="hint">Iltimos, yuqoridagi yo'nalishlardan birini tanlang yoki savolingizni yozing!</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chat Input - TO'G'RILANGAN -->
+                <!-- Chat Input -->
                 <div class="chat-input-area">
                     <div class="input-wrapper">
                         <input type="text" id="userInput" placeholder="Savolingizni yozing..." autocomplete="off">
-                        <button type="button" id="sendBtn" class="send-btn">
+                        <button id="sendBtn" class="send-btn">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
