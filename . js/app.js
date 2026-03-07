@@ -1,4 +1,4 @@
-// inno hub - Texnologiya Yordamchisi
+// INNO HUB - Texnologiya Yordamchisi
 // Faqat 4 ta yo'nalish: Robototexnika, Web, Mobilografiya, 3D
 
 class IABot {
@@ -100,23 +100,34 @@ class IABot {
     
     setupEventListeners() {
         // Yuborish tugmasi
-        this.sendBtn.addEventListener('click', () => this.handleUserMessage());
+        if (this.sendBtn) {
+            this.sendBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleUserMessage();
+            });
+        }
         
         // Enter tugmasi
-        this.userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.handleUserMessage();
-        });
-        
-        // Input fokus
-        this.userInput.addEventListener('focus', () => {
-            this.userInput.placeholder = 'Savolingizni yozing...';
-        });
+        if (this.userInput) {
+            this.userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.handleUserMessage();
+                }
+            });
+            
+            // Input fokus
+            this.userInput.addEventListener('focus', () => {
+                this.userInput.placeholder = 'Savolingizni yozing...';
+            });
+        }
     }
     
     setupTopicButtons() {
         const topicButtons = document.querySelectorAll('.topic-btn');
         topicButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 // Aktiv klassni o'chirish
                 topicButtons.forEach(b => b.classList.remove('active'));
                 // Yangi tugmaga qo'shish
@@ -136,7 +147,8 @@ class IABot {
     setupFeatureCards() {
         const cards = document.querySelectorAll('.feature-card');
         cards.forEach(card => {
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
                 const topic = card.dataset.topic;
                 this.setTopic(topic);
                 document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
@@ -172,6 +184,8 @@ class IABot {
     }
     
     handleUserMessage() {
+        if (!this.userInput) return;
+        
         const message = this.userInput.value.trim();
         if (!message) return;
         
@@ -190,6 +204,8 @@ class IABot {
     }
     
     addUserMessage(text) {
+        if (!this.chatMessages) return;
+        
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message user-message';
         messageDiv.innerHTML = `
@@ -201,6 +217,8 @@ class IABot {
     }
     
     addBotMessage(text) {
+        if (!this.chatMessages) return;
+        
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message bot-message';
         
@@ -216,6 +234,8 @@ class IABot {
     }
     
     showTyping() {
+        if (!this.chatMessages) return;
+        
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message typing';
         typingDiv.id = 'typingIndicator';
@@ -257,7 +277,9 @@ class IABot {
         // Agar mavzu tanlangan bo'lsa
         if (this.currentTopic !== 'all' && this.currentTopic !== 'general') {
             const topicData = this.knowledgeBase[this.currentTopic];
-            return this.findBestResponse(lowerMessage, topicData);
+            if (topicData) {
+                return this.findBestResponse(lowerMessage, topicData);
+            }
         }
         
         // Avtomatik aniqlash
@@ -366,7 +388,9 @@ class IABot {
     }
     
     scrollToBottom() {
-        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        if (this.chatMessages) {
+            this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        }
     }
 }
 
@@ -378,6 +402,10 @@ function setTopic(topic) {
 }
 
 // Dastur ishga tushganda
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.bot = new IABot();
+    });
+} else {
     window.bot = new IABot();
-});
+}
