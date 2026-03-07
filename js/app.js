@@ -342,4 +342,42 @@ class IABot {
     }
     
     getDefaultResponse() {
-        return "❓ Kechirasiz, men faqat quyidagi 4 ta yo'nalish bo'yicha yordam beraman:\n\n1. 🤖 **Robototexnika** - Arduino, sensorlar, dvigatellar\n2. 💻 **Web Dasturlash** - HTML, CSS, JavaScript, React\n3. 🎬 **Mobilografiya** - Premiere, DaVinci, After Effects\n4. 🎨 **3D Modellashtirish** - Blender, Unity
+        return "❓ Kechirasiz, men faqat quyidagi 4 ta yo'nalish bo'yicha yordam beraman:\n\n1. 🤖 **Robototexnika** - Arduino, sensorlar, dvigatellar\n2. 💻 **Web Dasturlash** - HTML, CSS, JavaScript, React\n3. 🎬 **Mobilografiya** - Premiere, DaVinci, After Effects\n4. 🎨 **3D Modellashtirish** - Blender, Unity, Unreal Engine\n\nIltimos, shu mavzulardan birini tanlang yoki aniqroq savol bering!";
+    }
+    
+    formatText(text) {
+        // Bold text **text**
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Italic *text*
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        // Code blocks ```code```
+        text = text.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+        // Inline code `code`
+        text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+        // New lines
+        text = text.replace(/\n/g, '<br>');
+        return `<p>${text}</p>`;
+    }
+    
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    scrollToBottom() {
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+    }
+}
+
+// Global funksiya (HTML dan chaqirish uchun)
+function setTopic(topic) {
+    if (window.bot) {
+        window.bot.setTopic(topic);
+    }
+}
+
+// Dastur ishga tushganda
+document.addEventListener('DOMContentLoaded', () => {
+    window.bot = new IABot();
+});
