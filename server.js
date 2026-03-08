@@ -48,7 +48,7 @@ async function getGeminiResponse(prompt, retryCount = 0) {
     const apiKey = API_KEYS[currentKeyIndex];
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-2.5-flash",
         systemInstruction: "Siz INNO HUB loyihasining aqlli AI yordamchisisiz. Sizning vazifangiz 4 ta asosiy yo'nalish: Robototexnika, Web dasturlash, Mobilografiya va 3D modellashtirish bo'yicha mutaxassis darajasida o'zbek tilida yordam berish. Xabarlarni xuddi insondek, tushunarli, kod namunalari va tushuntirishlar bilan taqdim eting."
     });
 
