@@ -4,9 +4,19 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 
-// JSON va static fayllar uchun
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
+
+// ---------------------------------------------------------
+// RENDER UCHUN HEALTH CHECK (Juda muhim!)
+// ---------------------------------------------------------
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'OK', 
+        service: 'INNO HUB AI',
+        timestamp: new Date().toISOString()
+    });
+});
 
 // ---------------------------------------------------------
 // 20+ API KALITLARINGIZNI SHU YERGA KIRITING
@@ -18,11 +28,9 @@ const API_KEYS = [
     // Qolgan barcha kalitlarni shu tarzda qo'shing
 ];
 
-let currentKeyIndex = 0; // Boshlang'ich kalit indeksi
+let currentKeyIndex = 0;
 
-// Gemini API'dan javob olish va kalitlarni aylantirish logikasi
 async function getGeminiResponse(prompt, retryCount = 0) {
-    // Agar barcha kalitlar tekshirilib chiqilgan bo'lsa
     if (retryCount >= API_KEYS.length) {
         throw new Error("Barcha API kalitlarining limiti tugadi. Iltimos, keyinroq urinib ko'ring.");
     }
@@ -40,26 +48,20 @@ async function getGeminiResponse(prompt, retryCount = 0) {
         return response.text();
     } catch (error) {
         console.error(`⚠️ Kalit xatosi (Index: ${currentKeyIndex}): ${error.message}`);
-        
-        // Xato bersa (limit tugasa yoki ban bo'lsa) keyingi kalitga o'tamiz
         currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length;
         console.log(`🔄 Yangi kalitga o'tildi. Hozirgi Index: ${currentKeyIndex}`);
-        
-        // Qaytadan urinib ko'rish
         return getGeminiResponse(prompt, retryCount + 1);
     }
 }
 
-// API endpoint
+// Chat API
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, topic } = req.body;
-        
         let contextPrompt = message;
         if (topic !== 'all') {
             contextPrompt = `Foydalanuvchi ${topic} yo'nalishi bo'yicha savol beryapti: ${message}`;
         }
-
         const answer = await getGeminiResponse(contextPrompt);
         res.json({ success: true, text: answer });
     } catch (error) {
@@ -67,12 +69,13 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-// Asosiy sahifa
+// Boshqa barcha so'rovlar uchun Asosiy sahifa
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
+// Render porti (render.yaml dagi port 10000 ga moslashtirildi)
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`🚀 INNO HUB AI serveri ishga tushdi: http://localhost:${PORT}`);
 });
