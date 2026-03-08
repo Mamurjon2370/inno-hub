@@ -1,7 +1,6 @@
 /**
- * IA Bot - Texnologiya Yordamchisi
- * Render.com uchun optimallashtirilgan versiya
- * @version 2.0.0
+ * IA Bot - Zamonaviy Dizayn JavaScript
+ * @version 3.0.0
  * @author Mamurjon2370
  */
 
@@ -12,17 +11,18 @@
     let currentTopic = 'all';
     let chatMessages, userInput, sendBtn;
     let isTyping = false;
+    let soundEnabled = true;
 
-    // Knowledge Base - Kengaytirilgan ma'lumotlar bazasi
+    // Knowledge Base - Kengaytirilgan
     const knowledgeBase = {
         greetings: {
-            patterns: ['salom', 'assalom', 'hello', 'hi', 'hey', 'qalesan', 'qandaysan'],
+            patterns: ['salom', 'assalom', 'hello', 'hi', 'hey', 'qalesan', 'qandaysan', 'privet'],
             responses: [
-                "👋 Salom! Men IA Botman. Sizga quyidagi yo'nalishlarda yordam beraman:\n\n🤖 Robototexnika\n💻 Web Dasturlash\n🎬 Mobilografiya\n🎨 3D Modellashtirish\n\nQaysi mavzu haqida gaplashmoqchisiz?"
+                "👋 Salom! Men **IA Bot**man.\n\nSizga quyidagi yo'nalishlarda yordam beraman:\n\n🤖 Robototexnika\n💻 Web Dasturlash\n🎬 Mobilografiya\n🎨 3D Modellashtirish\n\nQaysi mavzu haqida gaplashmoqchisiz?"
             ]
         },
         thanks: {
-            patterns: ['rahmat', 'thank', 'sagol', 'xayr', 'xayr'],
+            patterns: ['rahmat', 'thank', 'sagol', 'xayr', 'xayr', 'спасибо'],
             responses: [
                 "😊 Arzimaydi! Boshqa savolingiz bo'lsa, bemalol so'rang!",
                 "👍 Sizga yordam bera olsam, xursandman!",
@@ -30,85 +30,113 @@
             ]
         },
         robototexnika: {
-            patterns: ['arduino', 'robot', 'sensor', 'motor', 'raspberry', 'iot', 'elektronika', 'led', 'servo', 'ultrasonic'],
+            patterns: ['arduino', 'robot', 'sensor', 'motor', 'raspberry', 'iot', 'elektronika', 'led', 'servo', 'ultrasonic', 'masofa', 'dvigatel'],
             responses: [
                 "🤖 **Robototexnika** bo'yicha:\n\nArduino dasturlash, sensorlar va dvigatellar haqida savol bering. Masalan:\n• Arduino bilan LED yondirish\n• HC-SR04 masofa sensori\n• Servo motor nazorati\n• Bluetooth orqali boshqarish",
-                "🤖 **Arduino** uchun kod namunasi:\n```cpp\nvoid setup() {\n  pinMode(13, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(1000);\n  digitalWrite(13, LOW);\n  delay(1000);\n}\n```\nBu kod 13-pin dagi LEDni yondirib-o'chiradi."
+                "🤖 **Arduino** uchun kod namunasi:\n```cpp\nvoid setup() {\n  pinMode(13, OUTPUT);\n}\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(1000);\n  digitalWrite(13, LOW);\n  delay(1000);\n}\n```\nBu kod 13-pin dagi LEDni yondirib-o'chiradi.",
+                "🤖 **Sensorlar** haqida:\n• HC-SR04 - ultrasonik masofa sensori\n• DHT11 - harorat va namlik\n• MQ-2 - gaz sensori\n• PIR - harakat sensori"
             ]
         },
         web: {
-            patterns: ['html', 'css', 'javascript', 'react', 'web', 'frontend', 'backend', 'node', 'python', 'api', 'dom'],
+            patterns: ['html', 'css', 'javascript', 'react', 'web', 'frontend', 'backend', 'node', 'python', 'api', 'dom', 'sayt', 'dasturlash', 'kod'],
             responses: [
                 "💻 **Web Dasturlash** bo'yicha:\n\nFrontend yoki Backend haqida savol bering. Masalan:\n• HTML/CSS asoslari\n• JavaScript funksiyalar\n• React komponentlar\n• API bilan ishlash",
-                "💻 **HTML** asosiy struktura:\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Sahifa</title>\n</head>\n<body>\n  <h1>Salom!</h1>\n</body>\n</html>\n```"
+                "💻 **HTML** asosiy struktura:\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Sahifa</title>\n</head>\n<body>\n  <h1>Salom!</h1>\n</body>\n</html>\n```",
+                "💻 **CSS** flexbox markazlash:\n```css\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n```"
             ]
         },
         mobilografiya: {
-            patterns: ['video', 'premiere', 'davinci', 'capcut', 'montaj', 'after effects', 'color grading', 'edit', 'timeline'],
+            patterns: ['video', 'premiere', 'davinci', 'capcut', 'montaj', 'after effects', 'color grading', 'edit', 'timeline', 'video montaj', 'tasvirga olish'],
             responses: [
                 "🎬 **Mobilografiya** bo'yicha:\n\nVideo montaj va rang korreksiyasi haqida savol bering. Masalan:\n• Premiere Pro montaj\n• DaVinci Resolve color grading\n• CapCut mobil montaj\n• Green screen effektlar",
-                "🎬 **Premiere Pro** tez klavishlar:\n• C - Razor (kesish)\n• V - Selection\n• Space - Play/Pause\n• Ctrl+K - Cut"
+                "🎬 **Premiere Pro** tez klavishlar:\n• C - Razor (kesish)\n• V - Selection\n• Space - Play/Pause\n• Ctrl+K - Cut\n• Q/W - Trim edit",
+                "🎬 **DaVinci Resolve** nodelar:\n• Color wheels - rang balans\n• Curves - egri chiziqlar\n• Qualifier - rang tanlash\n• Power Windows - maskalar"
             ]
         },
         d3: {
-            patterns: ['blender', '3d', 'unity', 'unreal', 'model', 'render', 'maya', '3ds max', 'animation', 'mesh'],
+            patterns: ['blender', '3d', 'unity', 'unreal', 'model', 'render', 'maya', '3ds max', 'animation', 'mesh', '3d modell', 'oyin', 'game'],
             responses: [
                 "🎨 **3D Modellashtirish** bo'yicha:\n\nBlender yoki o'yin dvigatellari haqida savol bering. Masalan:\n• Blender box modeling\n• Unity dasturiy ta'minot\n• 3D animatsiya asoslari\n• Rendering sozlamalari",
-                "🎨 **Blender** asosiy klavishlar:\n• G - Move (ko'chirish)\n• S - Scale (o'lcham)\n• R - Rotate (aylantirish)\n• Tab - Edit/Object mode"
+                "🎨 **Blender** asosiy klavishlar:\n• G - Move (ko'chirish)\n• S - Scale (o'lcham)\n• R - Rotate (aylantirish)\n• Tab - Edit/Object mode\n• E - Extrude",
+                "🎨 **Unity** C# skript namunasi:\n```csharp\nvoid Update() {\n  transform.Rotate(0, 1, 0);\n}\n```\nBu ob'ektni aylantiradi."
+            ]
+        },
+        help: {
+            patterns: ['yordam', 'help', 'qanday', 'nima', 'nimani', 'qila olasiz', 'imkoniyat'],
+            responses: [
+                "📚 **Men nima qila olaman?**\n\n1. **Robototexnika** - Arduino, sensorlar, IoT\n2. **Web Dasturlash** - HTML, CSS, JS, React\n3. **Mobilografiya** - Premiere, DaVinci, CapCut\n4. **3D Modellashtirish** - Blender, Unity, Unreal\n\nYo'nalishni tanlang va savol bering!"
             ]
         },
         default: {
             responses: [
                 "❓ Iltimos, quyidagi 4 ta yo'nalishdan birini tanlang:\n\n1. 🤖 Robototexnika\n2. 💻 Web Dasturlash\n3. 🎬 Mobilografiya\n4. 🎨 3D Modellashtirish",
-                "🤔 Savolingizni tushunmadim. Iltimos, yuqoridagi yo'nalishlardan birini tanlang yoki aniqroq yozing."
+                "🤔 Savolingizni tushunmadim. Iltimos, yuqoridagi yo'nalishlardan birini tanlang yoki aniqroq yozing.\n\nMasalan: *Arduino bilan LED qanday yondiriladi?*"
             ]
         }
     };
 
-    // Topic ma'lumotlari
+    // Topic info
     const topicInfo = {
-        robototexnika: { name: 'Robototexnika', icon: '🤖', color: '#3b82f6' },
-        web: { name: 'Web Dasturlash', icon: '💻', color: '#10b981' },
-        mobilografiya: { name: 'Mobilografiya', icon: '🎬', color: '#f59e0b' },
-        d3: { name: '3D Modellashtirish', icon: '🎨', color: '#ec4899' },
-        all: { name: 'Barchasi', icon: '🌟', color: '#6366f1' }
+        robototexnika: { 
+            name: 'Robototexnika', 
+            icon: '🤖', 
+            color: '#3b82f6',
+            desc: 'Arduino va elektronika'
+        },
+        web: { 
+            name: 'Web Dasturlash', 
+            icon: '💻', 
+            color: '#10b981',
+            desc: 'Frontend va Backend'
+        },
+        mobilografiya: { 
+            name: 'Mobilografiya', 
+            icon: '🎬', 
+            color: '#f59e0b',
+            desc: 'Video montaj'
+        },
+        d3: { 
+            name: '3D Modellashtirish', 
+            icon: '🎨', 
+            color: '#ec4899',
+            desc: 'Blender va Unity'
+        },
+        all: { 
+            name: 'Barchasi', 
+            icon: '🌟', 
+            color: '#6366f1',
+            desc: 'Barcha yo\'nalishlar'
+        }
     };
 
     // Initialization
     function init() {
-        // Elementlarni olish
+        // Elements
         chatMessages = document.getElementById('chatMessages');
         userInput = document.getElementById('userInput');
         sendBtn = document.getElementById('sendBtn');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        // Tekshirish
+        
         if (!chatMessages || !userInput || !sendBtn) {
             console.error('❌ Kerakli elementlar topilmadi!');
             return;
         }
 
-        console.log('✅ IA Bot ishga tushmoqda...');
-
-        // Event Listeners
+        // Setup
         setupEventListeners();
-        
-        // Mobile menu
-        setupMobileMenu(mobileMenuBtn, mobileMenu);
-
-        // LocalStorage'dan yuklash
+        setupMobileMenu();
+        setupScrollEffects();
+        setupParticles();
         loadChatHistory();
 
-        // Welcome xabar
-        console.log('🚀 Bot tayyor!');
+        console.log('✅ IA Bot ishga tushdi!');
     }
 
+    // Event Listeners
     function setupEventListeners() {
         // Send button
         sendBtn.addEventListener('click', handleSend);
         
-        // Enter tugmasi
+        // Enter key
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -116,15 +144,15 @@
             }
         });
 
-        // Topic tugmalari
-        document.querySelectorAll('.topic-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+        // Topic chips
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
                 const topic = this.dataset.topic;
                 selectTopic(topic);
             });
         });
 
-        // Feature kartalari
+        // Feature cards
         document.querySelectorAll('.feature-card').forEach(card => {
             card.addEventListener('click', function() {
                 const topic = this.dataset.topic;
@@ -133,112 +161,236 @@
             });
         });
 
-        // Global function for quick buttons
-        window.selectTopic = function(topic) {
-            setTopicInternal(topic);
-        };
+        // Sound toggle
+        const soundToggle = document.getElementById('soundToggle');
+        if (soundToggle) {
+            soundToggle.addEventListener('click', function() {
+                soundEnabled = !soundEnabled;
+                this.innerHTML = soundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+            });
+        }
 
-        // Clear chat global
+        // Global functions
+        window.selectTopic = selectTopic;
         window.clearChat = clearChat;
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        if (backToTop) {
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
     }
 
-    function setupMobileMenu(btn, menu) {
-        if (!btn || !menu) return;
+    // Mobile Menu
+    function setupMobileMenu() {
+        const toggle = document.getElementById('mobileToggle');
+        const menu = document.getElementById('mobileMenu');
+        
+        if (!toggle || !menu) return;
 
-        btn.addEventListener('click', () => {
+        toggle.addEventListener('click', () => {
             menu.classList.toggle('active');
-            const icon = btn.querySelector('i');
+            const spans = toggle.querySelectorAll('span');
+            
             if (menu.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
             } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
             }
         });
 
-        // Mobile menu linklarini yopish
+        // Close on link click
         menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.remove('active');
-                const icon = btn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                const spans = toggle.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
             });
-        });
-
-        // Tashqi click yopish
-        document.addEventListener('click', (e) => {
-            if (!btn.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.remove('active');
-                const icon = btn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
         });
     }
 
+    // Scroll Effects
+    function setupScrollEffects() {
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+        
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Header effect
+            if (currentScroll > 100) {
+                header?.classList.add('scrolled');
+            } else {
+                header?.classList.remove('scrolled');
+            }
+            
+            // Back to top
+            if (currentScroll > 500) {
+                backToTop?.classList.add('visible');
+            } else {
+                backToTop?.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Initialize AOS
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+        }
+    }
+
+    // Particles Background
+    function setupParticles() {
+        const container = document.getElementById('particles');
+        if (!container) return;
+        
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            const left = Math.random() * 100;
+            const delay = Math.random() * 20;
+            const duration = Math.random() * 10 + 10;
+            
+            particle.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                background: rgba(99, 102, 241, ${Math.random() * 0.3 + 0.1});
+                border-radius: 50%;
+                left: ${left}%;
+                bottom: -10px;
+                animation: float-up ${duration}s ${delay}s infinite linear;
+                pointer-events: none;
+            `;
+            
+            container.appendChild(particle);
+        }
+        
+        // Add keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float-up {
+                0% {
+                    transform: translateY(0) translateX(0);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Handle Send
     function handleSend() {
         if (isTyping) return;
         
         const text = userInput.value.trim();
         if (!text) return;
 
-        // Foydalanuvchi xabarini qo'shish
+        // Add user message
         addUserMessage(text);
         userInput.value = '';
         userInput.focus();
 
-        // Typing ko'rsatish
+        // Play sound
+        playSound('send');
+
+        // Show typing
         showTyping();
 
-        // Javob olish
+        // Generate response
         isTyping = true;
-        const delay = 600 + Math.random() * 400;
+        const delay = 800 + Math.random() * 600;
         
         setTimeout(() => {
             hideTyping();
-            const response = generateSmartResponse(text);
+            const response = generateResponse(text);
             addBotMessage(response);
+            playSound('receive');
             isTyping = false;
             saveChatHistory();
         }, delay);
     }
 
+    // Add User Message
     function addUserMessage(text) {
         const div = document.createElement('div');
         div.className = 'message user-message';
         div.innerHTML = `
             <div class="message-avatar"><i class="fas fa-user"></i></div>
-            <div class="message-content"><p>${escapeHtml(text)}</p></div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    <p>${escapeHtml(text)}</p>
+                </div>
+                <span class="message-time">${getTime()}</span>
+            </div>
         `;
         chatMessages.appendChild(div);
         scrollToBottom();
     }
 
+    // Add Bot Message
     function addBotMessage(text) {
         const div = document.createElement('div');
         div.className = 'message bot-message';
-        const formattedText = formatMessage(text);
+        const formatted = formatMessage(text);
         
         div.innerHTML = `
             <div class="message-avatar"><i class="fas fa-robot"></i></div>
-            <div class="message-content">${formattedText}</div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    ${formatted}
+                </div>
+                <span class="message-time">${getTime()}</span>
+            </div>
         `;
         chatMessages.appendChild(div);
         scrollToBottom();
     }
 
+    // Format Message
     function formatMessage(text) {
-        // Bold matn
+        // Bold text
         text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Yangi qator
+        // New lines
         text = text.replace(/\n/g, '<br>');
-        // Kod bloklari
-        text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="code-block"><code>$2</code></pre>');
-        return `<p>${text}</p>`;
+        // Code blocks
+        text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, '<div class="code-block-wrapper"><pre class="code-block"><code>$2</code></pre><button class="copy-code" onclick="copyCode(this)"><i class="fas fa-copy"></i></button></div>');
+        // Inline code
+        text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+        
+        return text;
     }
 
+    // Show Typing
     function showTyping() {
         const div = document.createElement('div');
         div.className = 'message bot-message typing';
@@ -246,104 +398,192 @@
         div.innerHTML = `
             <div class="message-avatar"><i class="fas fa-robot"></i></div>
             <div class="message-content">
-                <div class="typing-indicator"><span></span><span></span><span></span></div>
+                <div class="message-bubble">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
             </div>
         `;
         chatMessages.appendChild(div);
         scrollToBottom();
     }
 
+    // Hide Typing
     function hideTyping() {
         const el = document.getElementById('typingIndicator');
         if (el) el.remove();
     }
 
-    function generateSmartResponse(msg) {
+    // Generate Response
+    function generateResponse(msg) {
         const lower = msg.toLowerCase();
         
-        // Salomlashish va boshqa patternlar
+        // Check patterns
         for (let key in knowledgeBase) {
             if (key === 'default') continue;
             const item = knowledgeBase[key];
             if (item.patterns && item.patterns.some(p => lower.includes(p))) {
                 const responses = item.responses;
+                
+                // Topic-specific priority
+                if (currentTopic !== 'all' && key !== currentTopic && key !== 'greetings' && key !== 'thanks' && key !== 'help') {
+                    continue;
+                }
+                
                 return responses[Math.floor(Math.random() * responses.length)];
             }
         }
 
-        // Default javob
+        // Default response
         const defaults = knowledgeBase.default.responses;
         return defaults[Math.floor(Math.random() * defaults.length)];
     }
 
-    function setTopicInternal(topic) {
+    // Select Topic
+    function selectTopic(topic) {
         currentTopic = topic;
         
-        // UI yangilash
-        document.querySelectorAll('.topic-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.topic === topic) {
-                btn.classList.add('active');
+        // Update UI
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.classList.remove('active');
+            if (chip.dataset.topic === topic) {
+                chip.classList.add('active');
             }
         });
 
         const info = topicInfo[topic];
-        if (info) {
-            addBotMessage(`🎯 **${info.name}** yo'nalishi tanlandi! ${info.icon}\n\nSavolingizni yozing, men yordam beraman.`);
+        if (info && topic !== 'all') {
+            addBotMessage(`🎯 **${info.name}** ${info.icon} yo'nalishi tanlandi!\n\n_${info.desc}_\n\nSavolingizni yozing, men yordam beraman.`);
+        } else if (topic === 'all') {
+            addBotMessage(`🌟 **Barcha yo'nalishlar** tanlandi!\n\nIstalgan mavzu haqida savol bering.`);
         }
         
         saveChatHistory();
+        
+        // Scroll to chat
+        document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function selectTopic(topic) {
-        setTopicInternal(topic);
-    }
-
+    // Clear Chat
     function clearChat() {
-        if (confirm('Barcha suhbatni o\'chirishni xohlaysizmi?')) {
-            // Welcome xabarni saqlab qolish
-            const welcome = chatMessages.querySelector('.welcome-message');
-            chatMessages.innerHTML = '';
-            if (welcome) {
-                chatMessages.appendChild(welcome);
-            } else {
-                // Yangi welcome xabar
-                addBotMessage(knowledgeBase.greetings.responses[0]);
-            }
-            localStorage.removeItem('iaBot_chatHistory');
-            currentTopic = 'all';
-            updateTopicUI('all');
-        }
-    }
-
-    function updateTopicUI(topic) {
-        document.querySelectorAll('.topic-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.topic === topic) {
-                btn.classList.add('active');
+        if (!confirm('Barcha suhbatni o\'chirishni xohlaysizmi?')) return;
+        
+        // Keep welcome message
+        chatMessages.innerHTML = `
+            <div class="message bot-message welcome-message">
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <p>Salom! 👋 Men <strong>IA Bot</strong>man.</p>
+                        <p>Sizga quyidagi yo'nalishlarda yordam beraman:</p>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-chip" onclick="window.selectTopic('robototexnika')">
+                            <span class="chip-icon">🤖</span>
+                            <span>Robototexnika</span>
+                        </button>
+                        <button class="quick-chip" onclick="window.selectTopic('web')">
+                            <span class="chip-icon">💻</span>
+                            <span>Web Dasturlash</span>
+                        </button>
+                        <button class="quick-chip" onclick="window.selectTopic('mobilografiya')">
+                            <span class="chip-icon">🎬</span>
+                            <span>Mobilografiya</span>
+                        </button>
+                        <button class="quick-chip" onclick="window.selectTopic('d3')">
+                            <span class="chip-icon">🎨</span>
+                            <span>3D Modellashtirish</span>
+                        </button>
+                    </div>
+                    <span class="message-time">Hozir</span>
+                </div>
+            </div>
+        `;
+        
+        localStorage.removeItem('iaBot_chatHistory');
+        currentTopic = 'all';
+        
+        // Reset topic chips
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.classList.remove('active');
+            if (chip.dataset.topic === 'all') {
+                chip.classList.add('active');
             }
         });
     }
 
+    // Copy Code
+    window.copyCode = function(btn) {
+        const code = btn.previousElementSibling.querySelector('code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.color = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.style.color = '';
+            }, 2000);
+        });
+    };
+
+    // Play Sound
+    function playSound(type) {
+        if (!soundEnabled) return;
+        
+        // Simple beep using Web Audio API
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            if (type === 'send') {
+                oscillator.frequency.value = 800;
+                gainNode.gain.value = 0.1;
+            } else {
+                oscillator.frequency.value = 600;
+                gainNode.gain.value = 0.1;
+            }
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+            // Ignore audio errors
+        }
+    }
+
+    // Utilities
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
+    function getTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('uz-UZ', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    }
+
     function scrollToBottom() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // LocalStorage funksiyalari
+    // LocalStorage
     function saveChatHistory() {
         try {
-            const messages = chatMessages.innerHTML;
-            localStorage.setItem('iaBot_chatHistory', messages);
+            localStorage.setItem('iaBot_chatHistory', chatMessages.innerHTML);
             localStorage.setItem('iaBot_currentTopic', currentTopic);
             localStorage.setItem('iaBot_lastVisit', new Date().toISOString());
         } catch (e) {
-            console.warn('Chat history saqlanmadi:', e);
+            console.warn('Saqlash mumkin emas:', e);
         }
     }
 
@@ -356,13 +596,13 @@
             if (saved && saved.includes('message')) {
                 chatMessages.innerHTML = saved;
                 
-                // Qaytgan foydalanuvchi uchun
+                // Welcome back message
                 if (lastVisit) {
-                    const lastDate = new Date(lastVisit);
+                    const last = new Date(lastVisit);
                     const now = new Date();
-                    const diffHours = (now - lastDate) / (1000 * 60 * 60);
+                    const hours = (now - last) / (1000 * 60 * 60);
                     
-                    if (diffHours > 1) {
+                    if (hours > 2) {
                         setTimeout(() => {
                             addBotMessage("👋 Qaytganingiz bilan! Qanday yordam bera olaman?");
                         }, 1000);
@@ -372,23 +612,19 @@
             
             if (savedTopic) {
                 currentTopic = savedTopic;
-                updateTopicUI(savedTopic);
+                document.querySelectorAll('.topic-chip').forEach(chip => {
+                    chip.classList.remove('active');
+                    if (chip.dataset.topic === savedTopic) {
+                        chip.classList.add('active');
+                    }
+                });
             }
         } catch (e) {
-            console.warn('Chat history yuklanmadi:', e);
+            console.warn('Yuklash mumkin emas:', e);
         }
     }
 
-    // Service Worker (PWA uchun)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registered'))
-                .catch(err => console.log('❌ Service Worker error:', err));
-        });
-    }
-
-    // Ishga tushirish
+    // Initialize
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
