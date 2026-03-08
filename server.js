@@ -22,10 +22,20 @@ app.get('/health', (req, res) => {
 // 20+ API KALITLARINGIZNI SHU YERGA KIRITING
 // ---------------------------------------------------------
 const API_KEYS = [
-    "AIzaSyYourAPIKey1.....................",
-    "AIzaSyYourAPIKey2.....................",
-    "AIzaSyYourAPIKey3....................."
-    // Qolgan barcha kalitlarni shu tarzda qo'shing
+   "AIzaSyDJgzqsliBEbt3L486KjSxVMuC5c7DNKwM", "AIzaSyAUb7A_lzTr3HJuMuo8sb-A_V4DQFOPD1k",
+    "AIzaSyDqJeoN9Qpy_hCQ787uzuldKGyz-dTs1lE", "AIzaSyAUiZ31N-Lb2_KWQZ4R9uO85YGyLlAqH9U",
+    "AIzaSyCVq_qLQrLZ_cYvgeuo_H-fZilUQ_jXCKo", "AIzaSyCScq5T13zmQTqGPlIHLokN5PO964DItMs",
+    "AIzaSyBxSV0NWiBStPB6UeeMUkSjGun-hCLTYgs", "AIzaSyBRZBPcKy87f6LTOOhj0Bmq-1BP5ow9vkU",
+    "AIzaSyB1xRYdwTvomkOqdG0oss5yWxkzq3i9VBY", "AIzaSyBbIVETDyorNag3p1QZzo1cpwhV77pnYU8",
+    "AIzaSyAb50qIpWMVlDSnaDUnLQvnL1KILdU4D6M", "AIzaSyBUSFcOUaVHffeZNSMLDC_EYyiJGEnpd0w",
+    "AIzaSyCZiObxHo6I1z43Qjl5aMuH5Jx2cMC02sA", "AIzaSyDtoKSz0dkT4XClc4R-4OROVJLSmw80Jdk",
+    "AIzaSyCdOx-WKEnHdKmmUW9xBA-YIq84NY40Cvc", "AIzaSyC16rZxPj6lUpgoT0p7KpDDP4PGdafmWA8",
+    "AIzaSyC5K-TStq8xW5dvAULmmaQ9nFU91bsJ4Ls", "AIzaSyAlkA_BCtpSaHt_-KeHFm78fANxJ2vvA3Y",
+    "AIzaSyA5Pj3-9442FPlGdC0nj7GxytzpsH7B7Mk", "AIzaSyAw24MTk0OcLfoYRU-i67SovZDdBmvOc3U",
+    "AIzaSyBLsPwbROi5VuL2x7oLU9GtAP4yQZDHi10", "AIzaSyA9Yjp1JqnBe0UnMEvxHClEBfyjgDyoZ6E",
+    "AIzaSyD3QBWRAuFcqcWMMbEIbFWGXbSbVSqkYOA", "AIzaSyC0UVkVNifnL2lpvm3_VMK2NlBNJ8IsduY"
+]
+
 ];
 
 let currentKeyIndex = 0;
